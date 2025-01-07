@@ -34,7 +34,7 @@ import { AspectRatioKey, debounce, deepMergeObjects } from "@/lib/utils";
 import TransformedImage from "./TransformedImage";
 import { updateCredits } from "@/lib/actions/user.actions";
 import { getCldImageUrl } from "next-cloudinary";
-// import { addImage, updateImage } from "@/lib/actions/image.actions";
+import { addImage, updateImage } from "@/lib/actions/image.actions";
 import { useRouter } from "next/navigation";
 import { CustomField } from "./CustomField";
 import MediaUploader from "./MediaUploader";
@@ -111,16 +111,16 @@ const TransformationForm = ({
 
       if (action === "Add") {
         try {
-          //   const newImage = await addImage({
-          //     image: imageData,
-          //     userId,
-          //     path: "/",
-          //   });
-          //   if (newImage) {
-          //     form.reset();
-          //     setImage(data);
-          //     router.push(`/transformations/${newImage._id}`);
-          //   }
+          const newImage = await addImage({
+            image: imageData,
+            userId,
+            path: "/",
+          });
+          if (newImage) {
+            form.reset();
+            setImage(data);
+            router.push(`/transformations/${newImage._id}`);
+          }
         } catch (error) {
           console.log(error);
         }
@@ -128,17 +128,17 @@ const TransformationForm = ({
 
       if (action === "Update") {
         try {
-          //   const updatedImage = await updateImage({
-          //     image: {
-          //       ...imageData,
-          //       _id: data._id,
-          //     },
-          //     userId,
-          //     path: `/transformations/${data._id}`,
-          //   });
-          //   if (updatedImage) {
-          //     router.push(`/transformations/${updatedImage._id}`);
-          //   }
+          const updatedImage = await updateImage({
+            image: {
+              ...imageData,
+              _id: data._id,
+            },
+            userId,
+            path: `/transformations/${data._id}`,
+          });
+          if (updatedImage) {
+            router.push(`/transformations/${updatedImage._id}`);
+          }
         } catch (error) {
           console.log(error);
         }
