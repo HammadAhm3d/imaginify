@@ -8,13 +8,14 @@ import { getImageById } from "@/lib/actions/image.actions";
 import { auth } from "@clerk/nextjs/server";
 
 const Page = async ({ params }: SearchParamProps) => {
-  const { id } = await params;
-  const { userId } = await auth();
+  const [{ id }, { userId }] = await Promise.all([params, auth()]);
 
   if (!userId) redirect("/sign-in");
 
-  const user = await getUserById(userId);
-  const image = await getImageById(id);
+  const [user, image] = await Promise.all([
+    getUserById(userId),
+    getImageById(id),
+  ]);
 
   const transformation =
     transformationTypes[image.transformationType as TransformationTypeKey];
